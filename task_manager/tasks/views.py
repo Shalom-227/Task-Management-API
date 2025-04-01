@@ -8,6 +8,8 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.viewsets import ModelViewSet
 from .models import Task
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 # Create your views here.
@@ -67,6 +69,16 @@ class TaskViewSet(ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [TaskPermission, IsAuthenticated]
 
+    #create filters for task
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ["status", "priority_level"]
+    search_fields = ["title", "description"]
+    ordering_fields = ["due_date", "priority_level"]
+
+    #ensure only logged-in users can filter tasks that belongs to them
+    def get_queryset(self):
+        user = self.request.user
+        return queryset.filter(user=user)
 
 ''' create view for task completion '''
 
@@ -75,7 +87,7 @@ class TaskCompletionView(APIView):
 
     def patch(self, request, pk):
         try:
-            task = Task.objects.get(id=task_id)
+            task = Task.objects.get(id=pk)
         except Task.DoesNotExist:
             return Response({"error": "Task not found."}, status=status.HTTP_404_NOT_FOUND)
 
