@@ -111,6 +111,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'tasks.backends.EmailBackend',  # Custom backend
+    'django.contrib.auth.backends.ModelBackend',  # Keep Django’s default username login (optional)
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

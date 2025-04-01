@@ -28,8 +28,7 @@ class LoginSerializer(serializers.Serializer):
 
     class Meta:
         model = User
-        fields = ["email", "password"]
-
+        fields = [ "email", "password"] 
     def validate(self, data):
         email = data.get("email")
         password = data.get("password")
@@ -37,6 +36,9 @@ class LoginSerializer(serializers.Serializer):
 
         if not user:
             raise serializers.ValidationError("Invalid credentials")
+
+        data['user'] = user
+        return data
 
 
 class TaskSerializer(serializers.ModelSerializer):

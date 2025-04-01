@@ -26,21 +26,21 @@ class RegisterView(CreateAPIView):
 
 ''' view for user login '''
 class LoginView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         user = serializer.validated_data['user']
 
-        token, created = Token.objects.get_or_created(user=user)
+        token, created = Token.objects.get_or_create(user=user)
 
         return Response({
             'token': token.key,
             'username': user.username,
             'message': 'Login successful',
             }, status=status.HTTP_200_OK)
-
 
 ''' view for user logout'''
 class LogoutView(APIView):
@@ -66,6 +66,24 @@ class TaskViewSet(ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = [TaskPermission, IsAuthenticated]
+
+
+''' create view for task completion '''
+
+class TaskCompletionView(APIView):
+    permission_classes = [TaskPermission, IsAuthenticated]
+
+    def patch(self, request, pk):
+        try:
+            task = Task.objects.get(id=task_id)
+        except Task.DoesNotExist:
+            return Response({"error": "Task not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = TaskSerializer(task, data=request.data, partial=True) #partial=True allows update only the status field
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
