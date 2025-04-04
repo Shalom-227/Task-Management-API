@@ -154,7 +154,7 @@ https://task-management-api-w7m2.onrender.com/api/tasks/<ID>/
 *testing filter api*
 https://task-management-api-w7m2.onrender.com/api/tasks/?status=False&priority_level=High/
 
-*logout filter api*
+*logout api*
 https://task-management-api-w7m2.onrender.com/api/users/logout/
 
 output: {"message":"Successfully logged out."}
