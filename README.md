@@ -130,7 +130,7 @@ https://task-management-api-w7m2.onrender.com/api/tasks/
 
 *detail task*
 GET
-https://task-management-api-w7m2.onrender.com/api/tasks/<ID>/
+https://task-management-api-w7m2.onrender.com/api/tasks/<int:pk>/
 
 {
   "title": "Make Demo Video",
@@ -144,11 +144,11 @@ https://task-management-api-w7m2.onrender.com/api/tasks/<ID>/
 
 *update task (partial update)* 
 PATCH
-https://task-management-api-w7m2.onrender.com/api/tasks/<ID>/
+https://task-management-api-w7m2.onrender.com/api/tasks/<int:pk>/
 
 
 *delete task*
-https://task-management-api-w7m2.onrender.com/api/tasks/<ID>/
+https://task-management-api-w7m2.onrender.com/api/tasks/<int:pk>/
 
 
 *testing filter api*
@@ -162,4 +162,6 @@ https://task-management-api-w7m2.onrender.com/api/users/logout/
 
 output: {"message":"Successfully logged out."}
 
-
+*complete task api* 
+PATCH
+https://task-management-api-w7m2.onrender.com/api/tasks/<int:pk>/complete/ 
