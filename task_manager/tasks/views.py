@@ -78,7 +78,7 @@ class TaskViewSet(ModelViewSet):
     #ensure only logged-in users can filter tasks that belongs to them
     def get_queryset(self):
         user = self.request.user
-        return queryset.filter(user=user)
+        return Task.objects.filter(user=user)
 
 ''' create view for task completion '''
 
