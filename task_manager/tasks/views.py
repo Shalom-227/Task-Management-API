@@ -75,10 +75,13 @@ class TaskViewSet(ModelViewSet):
     search_fields = ["title", "description"]
     ordering_fields = ["due_date", "priority_level"]
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        
     #ensure only logged-in users can filter tasks that belongs to them
     def get_queryset(self):
         user = self.request.user
-        return queryset.filter(user=user)
+        return Task.objects.filter(user=user)
 
 ''' create view for task completion '''
 

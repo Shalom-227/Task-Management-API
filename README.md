@@ -21,11 +21,11 @@ Ran migrations
     - /api/users/logout/
 
 4. created task api endpoints using ModelViewSet
-    - /api/tasks/
-    - /api/tasks_list/
-    - /api/tasks/{id}/
-    - /api/tasks/{id}/
-    - /api/tasks/{id}/
+    - /api/tasks/        POST         CREATE TASK
+    - /api/tasks/        GET          LIST TASKS   
+    - /api/tasks/{id}/   GET          DETAIL A TASK
+    - /api/tasks/{id}/   PUT/PATCH    UPDATE A TASK
+    - /api/tasks/{id}/   DELETE       DELETE A TASK
 
 ## Week 3
 1. updated Task Serializer to allow task instance to be updated with validated data
@@ -91,3 +91,77 @@ Ran migrations
   {
     "id": 1, "title": "Submit Capstone Project", "description": ""Complete ALX Capstone Project to be considered a junior software engineer","due_date": "2025-04-06","priority_level": "high", "status": false,"user": 1}]
 
+# AFTER DEPLOYMENT USING RENDER
+# TESTING ENDPOINTS USING POSTMAN
+*register* 
+https://task-management-api-w7m2.onrender.com/api/users/register/
+
+{
+  "email": "mail@gmail.com",
+  "username": "username",
+  "password": "password"
+}
+# expected output: output: {"message":"User registered successfully."}
+
+*login*
+https://task-management-api-w7m2.onrender.com/api/users/login/
+
+{
+  "email": "mail02@gmail.com",
+  "password": "password"
+}                                                                                             output: {"token":"TOKEN ","username":"username","message":"Login successful"}
+
+
+*create task*
+https://task-management-api-w7m2.onrender.com/api/tasks/
+
+{
+  "title": "Make Demo Video",
+  "description": "Requirement for graduation",
+  "due_date": "2025-04-06",
+  "priority_level": "high",
+  "user": "1"
+}              
+
+*list tasks*
+GET
+https://task-management-api-w7m2.onrender.com/api/tasks/
+
+
+*detail task*
+GET
+https://task-management-api-w7m2.onrender.com/api/tasks/<int:pk>/
+
+{
+  "title": "Make Demo Video",
+  "description": "Requirement for graduation",
+  "due_date": "2025-04-06",
+  "priority_level": "high",
+  "user": "1"
+
+
+}
+
+*update task (partial update)* 
+PATCH
+https://task-management-api-w7m2.onrender.com/api/tasks/<int:pk>/
+
+
+*delete task*
+https://task-management-api-w7m2.onrender.com/api/tasks/<int:pk>/
+
+
+*testing filter api*
+https://task-management-api-w7m2.onrender.com/api/tasks/?status=False&priority_level=High/
+
+*search*
+https://task-management-api-w7m2.onrender.com/api/tasks/?search=
+
+*logout api*
+https://task-management-api-w7m2.onrender.com/api/users/logout/
+
+output: {"message":"Successfully logged out."}
+
+*complete task api* 
+PATCH
+https://task-management-api-w7m2.onrender.com/api/tasks/<int:pk>/complete/ 
